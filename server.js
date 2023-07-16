@@ -10,12 +10,14 @@ const path = require("path");
 dotenv.config();
 connectDB();
 const app = express();
-
+app.use(cors());
 app.use(express.json()); // to accept json data
 
-// app.get("/", (req, res) => {
-//   res.send("API Running!");
-// });
+ app.get("/", (req, res) => {
+      res.setHeader("Access-Control-Allow-Credentials"."true");
+  res.send("API Running!");
+
+ });
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
@@ -23,19 +25,6 @@ app.use("/api/message", messageRoutes);
 
 // --------------------------deployment------------------------------
 // --------------------------deployment------------------------------
-
-const __dirname1 = "https:frontend-chat-app-u89r.onrender.com";
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname1, "/frontend/build")));
-
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-  );
-} else {
-  app.get("/", (req, res) => {
-    res.send("API is running..");
-  });
-}
 
 // --------------------------deployment------------------------------
 
